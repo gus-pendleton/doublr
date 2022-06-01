@@ -37,9 +37,9 @@ server <- function(input, output, session) {
       need(input$t, ""),
       need(input$od,"")
     )
-    if(input$forg=="g"){
+    if(input$forg=="g"&input$gro.var!=""){
       validate(
-        need(input$gro.var,"Please choose a grouping variable")
+        need(input$gro.var,"Grouping variable not found")
       )
       ggplot(data = data$dataframe,
              aes(x = !!as.symbol(input$t),y = !!as.symbol(input$od),
@@ -51,8 +51,17 @@ server <- function(input, output, session) {
         scale_y_continuous(trans = "log2")+
         scale_x_continuous(limits = c(input$slider[1],input$slider[2]))+
         theme_classic()
-    }else{
+    }else if(input$forg=="f"&input$fil.var!=""&input$fil.value!=""){
       ggplot(data = filter(data$dataframe,!!as.symbol(input$fil.var)==input$fil.value),
+             aes_string(x = input$t,y = input$od))+
+        geom_point()+
+        stat_smooth(method = "lm",fullrange = F,se=F)+
+        ggpubr::stat_cor(aes(label = ..rr.label..))+
+        scale_y_continuous(trans = "log2")+
+        scale_x_continuous(limits = c(input$slider[1],input$slider[2]))+
+        theme_classic()
+    }else{
+      ggplot(data = data$dataframe,
              aes_string(x = input$t,y = input$od))+
         geom_point()+
         stat_smooth(method = "lm",fullrange = F,se=F)+
@@ -75,14 +84,7 @@ server <- function(input, output, session) {
       need(input$t, ""),
       need(input$od,"")
     )
-    if(input$forg=="f"){
-      dtf$doubling<-double_times(
-        df = filter(data$dataframe,!!as.symbol(input$fil.var)==input$fil.value),
-        time = input$t,
-        c1=input$slider[1],
-        c2=input$slider[2],
-        measure = input$od)
-    }else{
+    if(input$forg=="g"&input$gro.var!=""){
       dtg$doubling<-data$dataframe%>%
         nest_by(!!as.symbol(input$gro.var))%>%
         mutate(Doubling = double_times(df = data,time = input$t,
@@ -91,7 +93,30 @@ server <- function(input, output, session) {
                Cutoff_Min = input$slider[1],
                Cutoff_Max = input$slider[2])%>%
         select(!!as.symbol(input$gro.var),Doubling,Cutoff_Min, Cutoff_Max)
+
+    }else if(input$forg=="f"&input$fil.var!=""&input$fil.value!="") {
+      dtf$doubling<-data.frame(
+        Doubling = double_times(
+          df = filter(data$dataframe,!!as.symbol(input$fil.var)==input$fil.value),
+          time = input$t,
+          c1=input$slider[1],
+          c2=input$slider[2],
+          measure = input$od))
+    }else{
+      dtg$doubling<-data.frame(
+        Doubling = double_times(df = data$dataframe,time = input$t,
+                                c1 = input$slider[1],c2 = input$slider[2],
+                                measure = input$od),
+        Cutoff_Min = input$slider[1],
+        Cutoff_Max = input$slider[2])
+      dtf$doubling<-data.frame(
+        Doubling = double_times(df = data$dataframe,time = input$t,
+                                c1 = input$slider[1],c2 = input$slider[2],
+                                measure = input$od),
+        Cutoff_Min = input$slider[1],
+        Cutoff_Max = input$slider[2])
     }
+
   })
   resultsf<-reactiveValues(
     df = data.frame(Filtered_On = c(), Filter_Value = c(), Cutoff_Min = c(), Cutoff_Max = c(), Doubling_Time = c())
@@ -105,7 +130,7 @@ server <- function(input, output, session) {
       val_new<-c(resultsf$df$Filter_Value,input$fil.value)
       cf1_new<-c(resultsf$df$Cutoff_Min,input$slider[1])
       cf2_new<-c(resultsf$df$Cutoff_Max,input$slider[2])
-      dt_new<-c(resultsf$df$Doubling_Time, dtf$doubling)
+      dt_new<-c(resultsf$df$Doubling_Time, dtf$doubling$Doubling)
       resultsf$df<-data.frame(Filtered_On = fil_new,
                               Filter_Value = val_new,
                               Cutoff_Min = cf1_new,

@@ -6,9 +6,9 @@ ui <- fluidPage(
                             column(8,fluidRow(column(4,radioButtons(inputId = "forg",label = "Grouping or Filtering?",
                                                                     c("Grouping" = "g",
                                                                       "Filtering" = "f"))),
-                                              conditionalPanel("input.forg=='g'",column(4,textInput(inputId = "gro.var",label = "Group by?"))),
-                                              conditionalPanel("input.forg=='f'",column(4,textInput(inputId = "fil.var",label = "Filter by?"))),
-                                              conditionalPanel("input.forg=='f'",column(4,textInput(inputId = "fil.value",label = "Filter Value")))),
+                                              conditionalPanel("input.forg=='g'",column(4,textInput(value = "",inputId = "gro.var",label = "Group by?"))),
+                                              conditionalPanel("input.forg=='f'",column(4,textInput(value = "",inputId = "fil.var",label = "Filter by?"))),
+                                              conditionalPanel("input.forg=='f'",column(4,textInput(value = "",inputId = "fil.value",label = "Filter Value")))),
                                    column(12,dataTableOutput("table"),style = "height:400px; overflow-y: scroll;overflow-x: scroll;")),
                             column(4,
                                    fluidRow(

@@ -1,0 +1,82 @@
+---
+title: "Interactively Calculating Doubling Times with doublr"
+author: "Augustus Pendleton"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Interactively Calculating Doubling Times with doublr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The doublr package allows you to load a shiny app through which you can interactively compute doubling times from growth curve data. 
+
+##Installing the package
+
+To install doublr, you'll need to make sure the package [devtools](https://www.r-project.org/nosvn/pandoc/devtools.html) is installed. Once you have installed devtools, doublr can be installed and loaded as follows:
+
+```{r, eval=FALSE}
+devtools::install_github("gus-pendleton/doublr")
+library(doublr)
+```
+
+Note, doublr has a number of dependencies. The packages dplyr, ggplot2, and shiny are required to run; if your data is in an Excel sheet, the readxl package is also required. If you load the package as in the above example, these packages will be loaded automatically, however, if you call shiny app using the "doublr::" notation, it will fail unless these three packages have been loaded. 
+
+##Using the shiny app
+
+To launch the app, simply use the Launch() function:
+
+```{r, eval = F}
+Launch()
+```
+
+The resulting app will first prompt you to upload your data
+
+![Upload Prompt](Picture_1.PNG)
+
+Choose "Browse..." to pick your file. Once upload is complete, use "Go!" to begin analyzing your data. The result page should look something like this:
+
+![Uploaded Data Page](Whole_Page_No_Graph.PNG)
+
+This page can at first feel a little overwhelming, but let's work through each section individually. First, you should see your data displayed in the 
+
+###
+
+
+
+## Figures
+
+The figure sizes have been customised so that you can easily put two images side-by-side. 
+
+```{r, fig.show='hold'}
+plot(1:10)
+plot(10:1)
+```
+
+You can enable figure captions by `fig_caption: yes` in YAML:
+
+    output:
+      rmarkdown::html_vignette:
+        fig_caption: yes
+
+Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+
+## More Examples
+
+You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(mtcars, 10))
+```
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))
