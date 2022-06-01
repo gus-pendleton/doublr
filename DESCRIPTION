@@ -2,9 +2,9 @@ Package: doublr
 Title: Interactively calculate doubling times from growth curve data
 Version: 0.0.0.9000
 Authors@R: 
-    person("Augustus", "Pendleton", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person("Augustus", "Pendleton", , "arp277@cornell.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-9512-5812"))
+Description: I made this package to help people who want to use R but are a little nervous about calculating doubling times from their growth curves. This shiny app helps take you steps that could be confusing to new R users, like filtering their data, log-transforming their graphs to assess exponential phase, and calculating doubling times from log2-transformed data. 
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
@@ -14,3 +14,5 @@ Depends:
   dplyr,
   shiny,
   ggplot2,
+  readr,
+  readxl
