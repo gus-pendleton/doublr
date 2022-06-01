@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 The doublr package allows you to load a shiny app through which you can interactively compute doubling times from growth curve data. 
 
-##Installing the package
+## Installing the package
 
 To install doublr, you'll need to make sure the package [devtools](https://www.r-project.org/nosvn/pandoc/devtools.html) is installed. Once you have installed devtools, doublr can be installed and loaded as follows:
 
@@ -29,7 +29,7 @@ library(doublr)
 
 Note, doublr has a number of dependencies. The packages dplyr, ggplot2, and shiny are required to run; if your data is in an Excel sheet, the readxl package is also required. If you load the package as in the above example, these packages will be loaded automatically, however, if you call shiny app using the "doublr::" notation, it will fail unless these three packages have been loaded. 
 
-##Using the shiny app
+## Using the shiny app
 
 To launch the app, simply use the Launch() function:
 
@@ -43,7 +43,7 @@ The resulting app will first prompt you to upload your data
 
 Choose "Browse..." to pick your file. Once upload is complete, use "Go!" to begin analyzing your data. The result page should look something like this:
 
-![Uploaded Data Page](Whole_Page_No_Graph.PNG)
+![Uploaded Data Page](Whole_Page_No_Graph.PNG){width=100%}
 
 This page can at first feel a little overwhelming, but let's work through each section individually. First, you should see your data displayed in the table below. Take a look and make sure your data has been loaded correctly. This table is reactive, so if you filter it its length should adjust. 
 
@@ -63,9 +63,21 @@ It likely won't look like much at first. You'll need to move the slider inputs t
 
 ###Grouping or Filtering
 
-If your dataset contains growth curve data solely from one replicate, these choices are unnecessary, and you can continue to use the app as described below. However, for most biological experiments, you might have growth curve data from multiple strains, conditions, or replicates, for which you would like to quickly assess growth kinetics within each group. 
+If your dataset contains growth curve data solely from one replicate, these choices are unnecessary (and set to NULL), and you can continue to use the app as described below. However, for most biological experiments, you might have growth curve data from multiple strains, conditions, or replicates, for which you would like to quickly assess growth kinetics within each group. This is where the grouping and filtering options come in!
 
+Let's start with grouping:
 
+![Grouping Options](Group_Options.PNG)
+
+If the "Grouping or Filtering?" button is set to "Grouping", you'll have a text input labeled "Group by?" This is the column which you will use to group your data, separating it by strain/condition/replicate. Note that the app does not yet support grouping by multiple columns (though I'm hoping to develop that!). Again this text input does not require quotations, but is case sensitive and special characters should be avoided. Once you enter a valid column name, you won't see any difference in the table. However, you will see your graph has now reflected that change and provided linear fits within each group. Later, when you compute doubling times, doubling times will be computed within each group.
+
+Alternatively, you can filter the data to only plot and analyze one time series. Use the button to switch to "Filtering" mode:
+
+![Filtering Options](Filter_Options.PNG)
+
+Now you're provided with two text inputs. The first is "Filter by?", which should be the name of the column you plan on filtering with. The second is "Filter Value", which is the value (numerical or character) which selects within the rows of the "Filter by?" column. The app does not yet support logical phrases or multiple filter values (though I'm hoping to develop that!). Once you've filled in both of these text entries, you should see the graph on the right refresh to show the filtered data. 
+
+###Computing Doubling Times
 
 ## Figures
 
