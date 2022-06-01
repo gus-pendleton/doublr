@@ -45,9 +45,25 @@ Choose "Browse..." to pick your file. Once upload is complete, use "Go!" to begi
 
 ![Uploaded Data Page](Whole_Page_No_Graph.PNG)
 
-This page can at first feel a little overwhelming, but let's work through each section individually. First, you should see your data displayed in the 
+This page can at first feel a little overwhelming, but let's work through each section individually. First, you should see your data displayed in the table below. Take a look and make sure your data has been loaded correctly. This table is reactive, so if you filter it its length should adjust. 
 
-###
+###Identifying the Time (independent) and OD (dependent) variables
+
+The first thing you need to do is identify which columns represent your Time (or independent) variable, and which column(s) represent your dependent variable, whether that's OD, CFUs, Absorbance, etc. To do this, you'll type in the name of these columns under the "Time Column?" and "OD Column?" text input boxes:
+
+![Time and OD Input Boxes](Time_OD_Input.PNG)
+
+Quotation marks ("") or apostrophes ('') are unnecessary, but these are still case sensitive. Column names that contain special characters should be avoided. Both columns *must be numerical*. At this time, consider whether your data is in a long format or wide format - if in long format, simply identify the column where numerical measures of OD are located. If in wide format, provide the column containing OD values for whichever strain/replicate is held in that column. This app does not work for data in which time points are used as column names - you'll need to pivot that data to a longer format separately. 
+
+Once you identify the Time and OD columns, a graph should appear:
+
+![Graph and Slider Input](Graph_and_Slider.PNG)
+
+It likely won't look like much at first. You'll need to move the slider inputs to provide x-limits for your graph that fit your data. As you adjust the slider inputs, you'll see your linearized OD data being plotted. The y-axis has been log-transformed, and a linear model has been fit to whatever data is being included in the graph. The $$R^2$$ value provides a measure of linearity; you want to adjust your slider inputs to capture the maximum linear portion of your growth curve. These slider inputs will be used later for computing doubling times, and so they are important!
+
+###Grouping or Filtering
+
+If your dataset contains growth curve data solely from one replicate, these choices are unnecessary, and you can continue to use the app as described below. However, for most biological experiments, you might have growth curve data from multiple strains, conditions, or replicates, for which you would like to quickly assess growth kinetics within each group. 
 
 
 

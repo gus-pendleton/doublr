@@ -15,7 +15,7 @@ ui <- fluidPage(
                                      column(6,textInput(inputId = "t",label = "Time Column?")),
                                      column(6,textInput(inputId = "od",label = "OD Column?"))),
                                    sliderInput(inputId = "slider",label = "Choose upper and lower x limits",
-                                               min = 0, max = 1000, value = c(0,10) ),
+                                               value = c(0,1) ),
                                    plotOutput("plot")))),
   fluidRow(conditionalPanel("input.filego!=0",
                             column(3,actionButton("button","Run that regression!")),

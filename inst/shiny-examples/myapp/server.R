@@ -32,6 +32,16 @@ server <- function(input, output, session) {
     }
 
   })
+  observe({
+    validate(need(input$t,""),
+             need(input$datafile,""))
+    updateSliderInput(session = session, inputId = "slider",
+                      min = min(pull(data$dataframe,input$t)),
+                      max = max(pull(data$dataframe,input$t)),
+                      value = c(min(pull(data$dataframe,input$t)),
+                                max(pull(data$dataframe,input$t))),
+                      step = NULL)
+  })
   output$plot<-renderPlot({
     validate(
       need(input$t, ""),
