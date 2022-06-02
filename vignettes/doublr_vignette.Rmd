@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 The doublr package allows you to load a shiny app through which you can interactively compute doubling times from growth curve data. 
 
 ## Installing the package
@@ -28,6 +29,9 @@ library(doublr)
 ```
 
 Note, doublr has a number of dependencies. The packages dplyr, ggplot2, and shiny are required to run; if your data is in an Excel sheet, the readxl package is also required. If you load the package as in the above example, these packages will be loaded automatically, however, if you call shiny app using the "doublr::" notation, it will fail unless these three packages have been loaded. 
+## Downloading example data
+
+If you would like to work through the app with an example dataset, feel free to [download this sample file](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/gus-pendleton/data_for_doublr/blob/main/Sample_Data.csv)^[Thanks to [Minhas Kamal's](https://github.com/MinhasKamal/DownGit) DownGit code for facilitating this download]
 
 ## Using the shiny app
 
@@ -39,72 +43,83 @@ Launch()
 
 The resulting app will first prompt you to upload your data
 
-![Upload Prompt](Picture_1.PNG)
+![](Picture_1.PNG){width=50%}
 
 Choose "Browse..." to pick your file. Once upload is complete, use "Go!" to begin analyzing your data. The result page should look something like this:
 
-![Uploaded Data Page](Whole_Page_No_Graph.PNG){width=100%}
+![](Whole_Page_No_Graph.PNG){width=100%}
 
 This page can at first feel a little overwhelming, but let's work through each section individually. First, you should see your data displayed in the table below. Take a look and make sure your data has been loaded correctly. This table is reactive, so if you filter it its length should adjust. 
 
-###Identifying the Time (independent) and OD (dependent) variables
+### Identifying the Time (independent) and OD (dependent) variables
 
 The first thing you need to do is identify which columns represent your Time (or independent) variable, and which column(s) represent your dependent variable, whether that's OD, CFUs, Absorbance, etc. To do this, you'll type in the name of these columns under the "Time Column?" and "OD Column?" text input boxes:
 
-![Time and OD Input Boxes](Time_OD_Input.PNG)
+![](Time_OD_Input.PNG){width=50%}
 
 Quotation marks ("") or apostrophes ('') are unnecessary, but these are still case sensitive. Column names that contain special characters should be avoided. Both columns *must be numerical*. At this time, consider whether your data is in a long format or wide format - if in long format, simply identify the column where numerical measures of OD are located. If in wide format, provide the column containing OD values for whichever strain/replicate is held in that column. This app does not work for data in which time points are used as column names - you'll need to pivot that data to a longer format separately. 
 
 Once you identify the Time and OD columns, a graph should appear:
 
-![Graph and Slider Input](Graph_and_Slider.PNG)
+![](Graph_and_Slider.PNG)
 
 It likely won't look like much at first. You'll need to move the slider inputs to provide x-limits for your graph that fit your data. As you adjust the slider inputs, you'll see your linearized OD data being plotted. The y-axis has been log-transformed, and a linear model has been fit to whatever data is being included in the graph. The $$R^2$$ value provides a measure of linearity; you want to adjust your slider inputs to capture the maximum linear portion of your growth curve. These slider inputs will be used later for computing doubling times, and so they are important!
 
-###Grouping or Filtering
+### Grouping or Filtering
 
 If your dataset contains growth curve data solely from one replicate, these choices are unnecessary (and set to NULL), and you can continue to use the app as described below. However, for most biological experiments, you might have growth curve data from multiple strains, conditions, or replicates, for which you would like to quickly assess growth kinetics within each group. This is where the grouping and filtering options come in!
 
 Let's start with grouping:
 
-![Grouping Options](Group_Options.PNG)
+![](Group_Options.PNG)
 
 If the "Grouping or Filtering?" button is set to "Grouping", you'll have a text input labeled "Group by?" This is the column which you will use to group your data, separating it by strain/condition/replicate. Note that the app does not yet support grouping by multiple columns (though I'm hoping to develop that!). Again this text input does not require quotations, but is case sensitive and special characters should be avoided. Once you enter a valid column name, you won't see any difference in the table. However, you will see your graph has now reflected that change and provided linear fits within each group. Later, when you compute doubling times, doubling times will be computed within each group.
 
 Alternatively, you can filter the data to only plot and analyze one time series. Use the button to switch to "Filtering" mode:
 
-![Filtering Options](Filter_Options.PNG)
+![](Filter_Options.PNG)
 
 Now you're provided with two text inputs. The first is "Filter by?", which should be the name of the column you plan on filtering with. The second is "Filter Value", which is the value (numerical or character) which selects within the rows of the "Filter by?" column. The app does not yet support logical phrases or multiple filter values (though I'm hoping to develop that!). Once you've filled in both of these text entries, you should see the graph on the right refresh to show the filtered data. 
 
-###Computing Doubling Times
+### Computing Doubling Times
 
-## Figures
+Once you've identified the independent and dependent variables, used the slider input to select the linear portion of the graph, and chosen your filtering or grouping options, you're ready to compute the doubling times! Go ahead and click on the "Run that Regression!" button in the lower lefthand corner:
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+![](Group_Regression.PNG)
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
+You should see a table listing the groups, the cutoffs, and the doubling time, in whatever unit you provided your independent variable. Note that for grouped data, you must use the same slider inputs for all groups. This could cause issues if different groups have much slower doubling times, or their exponential phases are separated by a lag. In these scenarios, you'll need to use filtering mode to run regressions for each group individually. 
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+When you run regressions in filtering mode, each regression you run is saved. As such, you can first run a regression on Strain 1:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+![](Filter_Regression_1.PNG)
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+Change your filtering options to filter only Strain 2, and run a new regression:
 
-## More Examples
+![](Filter_Regression_2.PNG)
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+These results will continue to add every time you click the "Run that Regression!" button.
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
+### The double_times() function
 
-Also a quote using `>`:
+The doublr package contains one additional function, double_times(), which is under the hood of the doubling time calculations in the Shiny app. You can view the source code of double_times(), or use this function in your own workflows. The double_times() function requires 5 arguments:
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+1. *df* = The dataframe containing your data
+2. *time* = The column holding your independent (time) variable
+3. *measure* = The column holding your dependent (e.g. OD) variable, **not log-transformed**
+4. *c1* = The starting cut-off to apply to your data, i.e. the time at which you've determined exponential phase begins
+5. *c2* = The ending cut-off to apply to your data, i.e. the time at which you've determined exponential phase ends
+
+This function log2-transforms the dependent variable, fits a linear model of form:
+$$log2(measure)=b(time)+c$$
+
+and using the slope of this model (b) computes doubling time as 
+$$doubling = \frac{1}{b}$$
+
+### Downloading your results
+
+Once you are satisfied with the data from your doubling times table, you can download this in .csv format by clicking the "Download Results" button. 
+
+## Thank you!
+
+If you read this far, thank you! This is my first package and I had fun making it. Feel free to contact me as problems arise - I look forward to troubleshooting them!
+
