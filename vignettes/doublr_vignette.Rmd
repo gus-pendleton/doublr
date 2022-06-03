@@ -24,7 +24,7 @@ The doublr package allows you to load a shiny app through which you can interact
 To install doublr, you'll need to make sure the package [devtools](https://www.r-project.org/nosvn/pandoc/devtools.html) is installed. Once you have installed devtools, doublr can be installed and loaded as follows:
 
 ```{r, eval=FALSE}
-devtools::install_github("gus-pendleton/doublr")
+devtools::install_github("gus-pendleton/doublr", build_vignettes = TRUE)
 library(doublr)
 ```
 
