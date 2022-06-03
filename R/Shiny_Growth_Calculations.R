@@ -9,9 +9,8 @@
 #' @return A doubling time produced by fitting a linear model between the log2-transformed measure column and the time column and taking the reciprocal of the slope from that model.
 #'
 #' @examples
-#' #Make simple dataframe with exponential data:
 #' df<-data.frame(x= c(1:10), y = 2^c(1:10))
-#' double_times(df, time = x, measure = y, c1 = 1, c2 = 8)
+#' doublr::double_times(df, time = "x", measure = "y", c1 = 1, c2 = 8)
 double_times<-function(df,time, measure, c1,c2){
   exp<-df%>%
     filter(!!as.symbol(time)>=c1, !!as.symbol(time)<=c2)%>%
