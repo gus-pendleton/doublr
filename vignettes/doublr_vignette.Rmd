@@ -104,8 +104,8 @@ These results will continue to add every time you click the "Run that Regression
 The doublr package contains one additional function, double_times(), which is under the hood of the doubling time calculations in the Shiny app. You can view the source code of double_times(), or use this function in your own workflows. The double_times() function requires 5 arguments:
 
 1. *df* = The dataframe containing your data
-2. *time* = The column holding your independent (time) variable
-3. *measure* = The column holding your dependent (e.g. OD) variable, **not log-transformed**
+2. *time* = The column holding your independent (time) variable, supplied as a string
+3. *measure* = The column holding your dependent (e.g. OD) variable, **not log-transformed**, supplied as a string
 4. *c1* = The starting cut-off to apply to your data, i.e. the time at which you've determined exponential phase begins
 5. *c2* = The ending cut-off to apply to your data, i.e. the time at which you've determined exponential phase ends
 
