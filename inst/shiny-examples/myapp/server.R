@@ -17,7 +17,7 @@ server <- function(input, output, session) {
 
   observeEvent(input$datafile,{
     data$dataframe<-if(tools::file_ext(input$datafile)=="csv"){
-      read_csv(input$datafile$datapath)
+      read.csv(input$datafile$datapath)
     }else{
       readxl::read_excel(input$datafile$datapath)}
   })
