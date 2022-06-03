@@ -22,7 +22,6 @@ A doubling time produced by fitting a linear model between the log2-transformed 
 Calculate doubling time in exponential phase
 }
 \examples{
-#Make simple dataframe with exponential data:
 df<-data.frame(x= c(1:10), y = 2^c(1:10))
-double_times(df, time = x, measure = y, c1 = 1, c2 = 8)
+doublr::double_times(df, time = "x", measure = "y", c1 = 1, c2 = 8)
 }
