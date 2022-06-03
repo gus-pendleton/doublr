@@ -6,6 +6,23 @@
 \usage{
 double_times(df, time, measure, c1, c2)
 }
+\arguments{
+\item{df}{A dataframe}
+
+\item{time}{The column holding numerical or datetime values for the independent (usually time) variable. Quotation marks necessary}
+
+\item{measure}{The column holding numerical values for the dependent (e.g. OD) variable, not log-transformed. Quotation marks necessary.}
+
+\item{c1, c2}{Cutoffs for the time column that bound the exponential phase of the data.}
+}
+\value{
+A doubling time produced by fitting a linear model between the log2-transformed measure column and the time column and taking the reciprocal of the slope from that model.
+}
 \description{
 Calculate doubling time in exponential phase
+}
+\examples{
+#Make simple dataframe with exponential data:
+df<-data.frame(x= c(1:10), y = 2^c(1:10))
+double_times(df, time = x, measure = y, c1 = 1, c2 = 8)
 }
