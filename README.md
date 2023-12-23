@@ -28,6 +28,3 @@ make_wellmape_long()
 ```
 
 This will launch an interactive Shiny session where you can enter values manually or copy and paste from Excel/Google Sheets.
-```
-
-
