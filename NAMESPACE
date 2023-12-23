@@ -2,3 +2,4 @@
 
 export(Launch)
 export(double_times)
+export(make_wellmap_long)

@@ -8,10 +8,14 @@ Description: I made this package to help people who want to use R but are a litt
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Suggests: knitr, rmarkdown, readxl
 VignetteBuilder: knitr
 Depends:
   dplyr,
   shiny,
-  ggplot2
+  ggplot2,
+  tidyr,
+  stringr,
+  DT,
+  data.table
